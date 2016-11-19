@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Spring Cloud中国社区文档,Spring Cloud中国社区官网,Spring Cloud中国社区,致力于为Spring Boot或Spring Cloud技术人员提供分享和交流的平台! www.springcloud.cn,springcloud.cn,spring coud中文">
+        <meta name="author" content="许进">
+        <link rel="canonical" href="http://docs.springcloud.cn/user-guide/feign/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>声明式REST客户端Feign - Spring Cloud中国社区</title>
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../css/highlight.css">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link href="../../css/extra.css" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../js/highlight.pack.js"></script>
+         
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../..">Spring Cloud中国社区</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="../..">首页</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Spring Cloud中文翻译文档 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        
+<li >
+    <a href="../eureka/">Spring Cloud Eureka</a>
+</li>
+
+                    
+                        
+<li class="active">
+    <a href="./">声明式REST客户端Feign</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../bus/">Spring Cloud Bus</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../config/">Spring Cloud Config</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../sleuth/">Spring Cloud sleuth</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../stream/">Spring Cloud stream</a>
+</li>
+
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                    <li >
+                        <a rel="next" href="../eureka/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../bus/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                <li>
+                    <a href="https://github.com/springcloud">
+                        
+                            <i class="fa fa-github"></i>
+                        
+                        GitHub
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+    
+        <li class="main active"><a href="#restfeign">声明式REST客户端：Feign</a></li>
+        
+            <li><a href="#feign">覆盖Feign的默认配置</a></li>
+        
+            <li><a href="#feignhystrix">Feign对Hystrix的支持</a></li>
+        
+            <li><a href="#feignhystrix-fallback">Feign对Hystrix Fallback的支持</a></li>
+        
+            <li><a href="#feign_1">Feign对继承的支持</a></li>
+        
+            <li><a href="#feign_2">Feign对压缩的支持</a></li>
+        
+            <li><a href="#feign_3">Feign的日志</a></li>
+        
+    
+    
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<blockquote>
+<p>译者： 王鸿飞 / brucewhf@gmail.com</p>
+</blockquote>
+<h1 id="restfeign">声明式REST客户端：Feign<a class="headerlink" href="#restfeign" title="Permanent link">#</a></h1>
+<p>Feign是一个声明式Web Service客户端。使用Feign能让编写Web Service客户端更加简单, 它的使用方法是定义一个接口，然后在上面添加注解，同时也支持<code>JAX-RS</code>标准的注解。Feign也支持可拔插式的编码器和解码器。Spring Cloud对Feign进行了封装，使其支持了Spring MVC标准注解和<code>HttpMessageConverters</code>。Feign可以与Eureka和Ribbon组合使用以支持负载均衡。</p>
+<p>主类示例：</p>
+<pre><code class="java">@Configuration
+@ComponentScan
+@EnableAutoConfiguration
+@EnableEurekaClient
+@EnableFeignClients
+public class Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+
+}
+</code></pre>
+
+<p><code>StoreClient.java</code>:</p>
+<pre><code class="java">@FeignClient(&quot;stores&quot;)
+public interface StoreClient {
+    @RequestMapping(method = RequestMethod.GET, value = &quot;/stores&quot;)
+    List&lt;Store&gt; getStores();
+
+    @RequestMapping(method = RequestMethod.POST, value = &quot;/stores/{storeId}&quot;, consumes = &quot;application/json&quot;)
+    Store update(@PathVariable(&quot;storeId&quot;) Long storeId, Store store);
+}
+</code></pre>
+
+<p><code>@FeignClient</code>注解中的<code>stores</code>属性可以是一个任意字符串(<em>译者注：如果与Eureka组合使用，则<code>stores</code>应为Eureka中的服务名</em>)，Feign用它来创建一个Ribbon负载均衡器。你也可以通过<code>url</code>属性来指定一个地址(可以是完整的URL，也可以是一个主机名)。标注了<code>@FeignClient</code>注解的接口在<code>ApplicationContext</code>中的Bean实例名是这个接口的全限定名，同时这个Bean还有一个别名，为Bean名 + <code>FeignClient</code>。在本例中，可以使用<code>@Qualifier("storesFeignClient")</code>来注入该组件。</p>
+<p><br/></p>
+<p>如果classpath中有Ribbon, 上面的例子中Ribbon Client会想办法查找<code>stores</code>服务的IP地址。如果Eureka也在classpath中，那么Ribbon会从Eureka的注册信息中查找。如果你不想用Eureka,你也可以在配置文件中直接指定一组服务器地址。</p>
+<p><br/></p>
+<h2 id="feign">覆盖Feign的默认配置<a class="headerlink" href="#feign" title="Permanent link">#</a></h2>
+<p>Spring Cloud对Feign的封装中一个核心的概念就是客户端要有一个名字。每一个客户端随时可以向远程服务发起请求，并且每个服务都可以像使用<code>@FeignClient</code>注解一样指定一个名字。Spring Cloud会将所有的<code>@FeignClient</code>组合在一起创建一个新的<code>ApplicationContext</code>, 并使用<code>FeignClientsConfiguration</code>对Clients进行配置。配置中包括编码器、解码器和一个<code>feign.Contract</code>。</p>
+<p><br/></p>
+<p>Spring Cloud允许你通过<code>configuration</code>属性完全控制Feign的配置信息，这些配置比<code>FeignClientsConfiguration</code>优先级要高：</p>
+<pre><code class="java">@FeignClient(name = &quot;stores&quot;, configuration = FooConfiguration.class)
+public interface StoreClient {
+    //..
+}
+</code></pre>
+
+<p>在这个例子中，<code>FooConfiguration</code>中的配置信息会覆盖掉<code>FeignClientsConfiguration</code>中对应的配置。</p>
+<blockquote>
+<p>注意：<code>FooConfiguration</code>虽然是个配置类，但是它不应该被主上下文(ApplicationContext)扫描到，否则该类中的配置信息就会被应用于所有的<code>@FeignClient</code>客户端(本例中<code>FooConfiguration</code>中的配置应该只对<code>StoreClient</code>起作用)。</p>
+<p>注意：<code>serviceId</code>属性已经被弃用了，取而代之的是<code>name</code>属性。</p>
+<p>在先前的版本中在指定了<code>url</code>属性时<code>name</code>是可选属性，现在无论什么时候<code>name</code>都是必填属性。</p>
+</blockquote>
+<p><code>name</code>和<code>url</code>属性也支持占位符：</p>
+<pre><code class="java">@FeignClient(name = &quot;${feign.name}&quot;, url = &quot;${feign.url}&quot;)
+public interface StoreClient {
+    //..
+}
+</code></pre>
+
+<p>Spring Cloud Netflix为Feign提供了以下默认的配置Bean：(下面最左侧是Bean的类型，中间是Bean的name, 右侧是类名)</p>
+<ul>
+<li><code>Decoder</code> feignDecoder: <code>ResponseEntityDecoder</code>(这是对<code>SpringDecoder</code>的封装)</li>
+<li><code>Encoder</code> feignEncoder: <code>SpringEncoder</code></li>
+<li><code>Logger</code> feignLogger: <code>Slf4jLogger</code></li>
+<li><code>Contract</code> feignContract: <code>SpringMvcContract</code></li>
+<li><code>Feign.Builder</code> feignBuilder: <code>HystrixFeign.Builder</code></li>
+</ul>
+<p>下列Bean默认情况下Spring Cloud Netflix并没有提供，但是在应用启动时依然会从上下文中查找这些Bean来构造客户端对象：</p>
+<ul>
+<li><code>Logger.Level</code></li>
+<li><code>Retryer</code></li>
+<li><code>ErrorDecoder</code></li>
+<li><code>Request.Options</code></li>
+<li><code>Collection&lt;RequestInterceptor&gt;</code></li>
+</ul>
+<p>如果想要覆盖Spring Cloud Netflix提供的默认配置Bean, 需要在<code>@FeignClient</code>的<code>configuration</code>属性中指定一个配置类，并提供想要覆盖的Bean即可：</p>
+<pre><code class="java">@Configuration
+public class FooConfiguration {
+    @Bean
+    public Contract feignContract() {
+        return new feign.Contract.Default();
+    }
+
+    @Bean
+    public BasicAuthRequestInterceptor basicAuthRequestInterceptor() {
+        return new BasicAuthRequestInterceptor(&quot;user&quot;, &quot;password&quot;);
+    }
+}
+</code></pre>
+
+<p>本例子中，我们用<code>feign.Contract.Default</code>代替了<code>SpringMvcContract</code>, 并添加了一个<code>RequestInterceptor</code>。以这种方式做的配置会在所有的<code>@FeignClient</code>中生效。</p>
+<h2 id="feignhystrix">Feign对Hystrix的支持<a class="headerlink" href="#feignhystrix" title="Permanent link">#</a></h2>
+<p>如果Hystrix在classpath中，Feign会默认将所有方法都封装到断路器中。Returning a<code>com.netflix.hystrix.HystrixCommand</code> is also available。这样一来你就可以使用Reactive Pattern了。(调用<code>.toObservalbe()</code>或<code>.observe()</code>方法，或者通过<code>.queue()</code>进行异步调用)。</p>
+<p>将<code>feign.hystrix.enabled=false</code>参数设为<code>false</code>可以关闭对Hystrix的支持。</p>
+<p>如果想只关闭指定客户端的Hystrix支持，创建一个<code>Feign.Builder</code>组件并标注为<code>@Scope(prototype)</code>：</p>
+<pre><code class="java">@Configuration
+public class FooConfiguration {
+    @Bean
+    @Scope(&quot;prototype&quot;)
+    public Feign.Builder feignBuilder() {
+        return Feign.builder();
+    }
+}
+</code></pre>
+
+<h2 id="feignhystrix-fallback">Feign对Hystrix Fallback的支持<a class="headerlink" href="#feignhystrix-fallback" title="Permanent link">#</a></h2>
+<p>Hystrix支持<code>fallback</code>的概念，即当断路器打开或发生错误时执行指定的失败逻辑。要为指定的<code>@FeignClient</code>启用Fallback支持， 需要在<code>fallback</code>属性中指定实现类：</p>
+<pre><code class="java">@FeignClient(name = &quot;hello&quot;, fallback = HystrixClientFallback.class)
+protected interface HystrixClient {
+    @RequestMapping(method = RequestMethod.GET, value = &quot;/hello&quot;)
+    Hello iFailSometimes();
+}
+
+static class HystrixClientFallback implements HystrixClient {
+    @Override
+    public Hello iFailSometimes() {
+        return new Hello(&quot;fallback&quot;);
+    }
+}
+</code></pre>
+
+<blockquote>
+<p>注意：Feign对Hystrix Fallback的支持有一个限制：对于返回<code>com.netflix.hystrix.HystrixCommand</code>或<code>rx.Observable</code>对象的方法，fallback不起作用。</p>
+</blockquote>
+<h2 id="feign_1">Feign对继承的支持<a class="headerlink" href="#feign_1" title="Permanent link">#</a></h2>
+<p>Feign可以通过Java的接口支持继承。你可以把一些公共的操作放到父接口中，然后定义子接口继承之：</p>
+<p><em>UserService.java</em></p>
+<pre><code>public interface UserService {
+
+    @RequestMapping(method = RequestMethod.GET, value =&quot;/users/{id}&quot;)
+    User getUser(@PathVariable(&quot;id&quot;) long id);
+}
+</code></pre>
+
+<p><em>UserResource.java</em></p>
+<pre><code class="java">@RestController
+public class UserResource implements UserService {
+
+}
+</code></pre>
+
+<p><em>UserClient.java</em></p>
+<pre><code class="java">package project.user;
+
+@FeignClient(&quot;users&quot;)
+public interface UserClient extends UserService {
+
+}
+</code></pre>
+
+<blockquote>
+<p>注意: 在服务的调用端和提供端共用同一个接口定义是不明智的，这会将调用端和提供端的代码紧紧耦合在一起。同时在SpringMVC中会有问题，因为请求参数映射是不能被继承的。</p>
+</blockquote>
+<h2 id="feign_2">Feign对压缩的支持<a class="headerlink" href="#feign_2" title="Permanent link">#</a></h2>
+<p>你可能会想要对请求/响应数据进行Gzip压缩，指定以下参数即可：</p>
+<pre><code>feign.compression.request.enabled=true
+feign.compression.response.enabled=true
+</code></pre>
+
+<p>也可以添加一些更细粒度的配置：</p>
+<pre><code>feign.compression.request.enabled=true
+feign.compression.request.mime-types=text/xml,application/xml,application/json
+feign.compression.request.min-request-size=2048
+</code></pre>
+
+<p>上面的3个参数可以让你选择对哪种请求进行压缩，并设置一个最小请求大小的阀值。</p>
+<h2 id="feign_3">Feign的日志<a class="headerlink" href="#feign_3" title="Permanent link">#</a></h2>
+<p>每一个<code>@FeignClient</code>都会创建一个<code>Logger</code>, <code>Logger</code>的名字就是接口的全限定名。Feign的日志配置参数仅支持<code>DEBUG</code>：</p>
+<p><em>application.properties</em></p>
+<pre><code>logging.level.project.user.UserClient: DEBUG
+</code></pre>
+
+<p><code>Logger.Level</code>对象允许你为指定客户端配置想记录哪些信息：</p>
+<ul>
+<li><code>NONE</code>, 不记录任何信息，默认值。</li>
+<li><code>BASIC</code>, 记录请求方法、请求URL、状态码和用时。</li>
+<li><code>HEADERS</code>, 在<code>BASIC</code>的基础上再记录一些常用信息。</li>
+<li><code>FULL</code>: 记录请求和响应报文的全部内容。</li>
+</ul>
+<p>将<code>Level</code>设置为<code>FULL</code>的示例如下：</p>
+<pre><code class="java">@Configuration
+public class FooConfiguration {
+    @Bean
+    Logger.Level feignLoggerLevel() {
+        return Logger.Level.FULL;
+    }
+}
+</code></pre></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+                <center>Copyright &copy; 2016-2020 <a href="http://blog.xujin.org">许进博客</a>,<a href="http://blog.didispace.com/">程序猿DD</a>, <a href="http://springcloud.cn">Spring Cloud中国社区</a></center>
+            
+            <!--<center>访问人数 <a href="#">n</a>.</center>-->
+        </footer>
+        <script>var base_url = '../..';</script>
+        <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
+        <script src="../../js/base.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            From here you can search these documents. Enter
+                            your search terms below.
+                        </p>
+                        <form role="form">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                            </div>
+                        </form>
+                        <div id="mkdocs-search-results"></div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

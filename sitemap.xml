@@ -3,10 +3,50 @@
 
     
     <url>
-     <loc>/</loc>
+     <loc>http://docs.springcloud.cn/</loc>
      <lastmod>2016-11-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
+    
+
+    
+        
+    <url>
+     <loc>http://docs.springcloud.cn/user-guide/eureka/</loc>
+     <lastmod>2016-11-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>http://docs.springcloud.cn/user-guide/feign/</loc>
+     <lastmod>2016-11-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>http://docs.springcloud.cn/user-guide/bus/</loc>
+     <lastmod>2016-11-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>http://docs.springcloud.cn/user-guide/config/</loc>
+     <lastmod>2016-11-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>http://docs.springcloud.cn/user-guide/sleuth/</loc>
+     <lastmod>2016-11-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>http://docs.springcloud.cn/user-guide/stream/</loc>
+     <lastmod>2016-11-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
     
 
 </urlset>

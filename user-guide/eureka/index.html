@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Spring Cloud中国社区文档,Spring Cloud中国社区官网,Spring Cloud中国社区,致力于为Spring Boot或Spring Cloud技术人员提供分享和交流的平台! www.springcloud.cn,springcloud.cn,spring coud中文">
+        <meta name="author" content="许进">
+        <link rel="canonical" href="http://docs.springcloud.cn/user-guide/eureka/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Spring Cloud Eureka - Spring Cloud中国社区</title>
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../css/highlight.css">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link href="../../css/extra.css" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../js/highlight.pack.js"></script>
+         
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../..">Spring Cloud中国社区</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="../..">首页</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Spring Cloud中文翻译文档 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        
+<li class="active">
+    <a href="./">Spring Cloud Eureka</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../feign/">声明式REST客户端Feign</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../bus/">Spring Cloud Bus</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../config/">Spring Cloud Config</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../sleuth/">Spring Cloud sleuth</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../stream/">Spring Cloud stream</a>
+</li>
+
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                    <li >
+                        <a rel="next" href="../..">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../feign/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                <li>
+                    <a href="https://github.com/springcloud">
+                        
+                            <i class="fa fa-github"></i>
+                        
+                        GitHub
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+    
+        <li class="main active"><a href="#eureka">服务发现：Eureka客户端</a></li>
+        
+            <li><a href="#eureka_1">向Eureka注册服务</a></li>
+        
+            <li><a href="#eureka-server">Eureka Server的身份验证</a></li>
+        
+            <li><a href="#_1">状态页和健康信息指示器</a></li>
+        
+            <li><a href="#https">使用HTTPS</a></li>
+        
+            <li><a href="#_2">健康检查</a></li>
+        
+            <li><a href="#eureka_2">Eureka元数据说明</a></li>
+        
+            <li><a href="#eurekaclient">使用EurekaClient对象</a></li>
+        
+            <li><a href="#springdiscoveryclient">使用Spring的DiscoveryClient对象</a></li>
+        
+            <li><a href="#_3">为什么注册一个服务这么慢?</a></li>
+        
+    
+        <li class="main "><a href="#eureka_3">服务发现：Eureka服务端</a></li>
+        
+            <li><a href="#zone-region">高可用, Zone 和 Region</a></li>
+        
+            <li><a href="#standalone">Standalone模式</a></li>
+        
+            <li><a href="#_4">"伙伴"感知</a></li>
+        
+            <li><a href="#ip">使用IP地址</a></li>
+        
+    
+    
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<blockquote>
+<p>译者：王鸿飞 / brucewhf@gmail.com</p>
+</blockquote>
+<p>Eureka学习文档资料：</p>
+<ul>
+<li><a href="https://github.com/Netflix/eureka/wiki">Netflix Eureka详细文档</a></li>
+<li><a href="http://cloud.spring.io/spring-cloud-static/spring-cloud.html#_spring_cloud_netflix">Spring Cloud中对Eureka的介绍</a></li>
+</ul>
+<p>Spring Cloud Netflix提供了对Netflix开源项目的集成，使得我们可以以Spring Boot编程风格使用Netflix旗下相关框架。你只需要在程序中添加注解，就能使用成熟的Netflix组件来快速实现分布式系统的常见架构模式。这些模式包括服务发现(Eureka), 断路器(Hystrix), 智能路由(Zuul)和客户端负载均衡(Ribbon)。</p>
+<h1 id="eureka">服务发现：Eureka客户端<a class="headerlink" href="#eureka" title="Permanent link">#</a></h1>
+<p>服务发现是微服务架构中的一项核心服务。如果没有该服务，我们就只能为每一个服务调用者手工配置可用服务的地址，这不仅繁琐而且非常容易出错。Eureka包括了服务端和客户端两部分。服务端可以做到高可用集群部署，每一个节点可以自动同步，有相同的服务注册信息。</p>
+<h2 id="eureka_1">向Eureka注册服务<a class="headerlink" href="#eureka_1" title="Permanent link">#</a></h2>
+<p>当客户端向Eureka注册自己时会提供一些元信息，如主机名、端口号、获取健康信息的url和主页等。Eureka通过心跳连接判断服务是否在线，如果心跳检测失败超过指定时间，对应的服务通常就会被移出可用服务列表。</p>
+<blockquote>
+<p>译者注：向Eureka Server注册过的服务会每30秒向Server发送一次心跳连接, Server会根据心跳数据更新该服务的健康状态并复制到其他Server中。如果超过90秒没有收到该服务的心跳数据，则Server会将该服务移出列表。参考文档：https://github.com/Netflix/eureka/wiki/Eureka-at-a-glance</p>
+</blockquote>
+<p>Eureka Client代码示例：</p>
+<pre><code class="java">@Configuration
+@ComponentScan
+@EnableAutoConfiguration
+@EnableEurekaClient
+@RestController
+public class Application {
+
+    @RequestMapping(&quot;/&quot;)
+    public String home() {
+        return &quot;Hello world&quot;;
+    }
+
+    public static void main(String[] args) {
+        new SpringApplicationBuilder(Application.class).web(true).run(args);
+    }
+
+}
+</code></pre>
+
+<p>(其实就是个普通的Spring Boot应用)。 在这个例子中我们显式的使用了<code>@EnableEurekaClient</code>注解，如果你只添加了Eureka相关依赖(即依赖中没有<code>@EnableEurekaClient</code>的定义)，可以使用<code>@EnableDiscoveryClient</code>注解达到同样的效果。除此之外你必须指定一下Eureka服务器的地址：</p>
+<p><code>application.yml</code></p>
+<pre><code class="yaml">eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+</code></pre>
+
+<p>其中，<code>defaultZone</code>的作用是给没有指定<code>Zone</code>的客户端一个默认的Eureka地址。</p>
+<blockquote>
+<p>译者注：客户端可以在配置文件中指定当前服务属于哪一个<code>Zone</code>，如果没有指定，则属于默认<code>Zone</code>。</p>
+</blockquote>
+<p>默认的应用名(Service ID)、主机名和端口号分别对应配置信息中的<code>${spring.application.name}</code>、<code>${spring.application.name}</code>和<code>${server.port}</code>参数。</p>
+<p>使用<code>@EnableEurekaClient</code>注解后当前应用会同时变成一个Eureka服务端实例(它会注册自身)和Eureka客户端(可以查询当前服务列表)，与此相关的配置都在以<code>eureka.instance.*</code>开头的参数下。只要你指定了<code>spring.application.name</code>参数，那么就可以放心的使用默认参数而不需要修改任何配置。</p>
+<p>要查看更详细的参数，请参阅<a href="https://github.com/spring-cloud/spring-cloud-netflix/blob/master/spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/EurekaInstanceConfigBean.java">EurekaInstanceConfigBean</a>和<a href="http://github.com/spring-cloud/spring-cloud-netflix/tree/master/spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/EurekaClientConfigBean.java">EurekaClientConfigBean</a>。</p>
+<h2 id="eureka-server">Eureka Server的身份验证<a class="headerlink" href="#eureka-server" title="Permanent link">#</a></h2>
+<p>如果客户端的<code>eureka.client.serviceUrl.defaultZone</code>参数值(即Eureka Server的地址)中包含<code>HTTP Basic Authentication</code>信息，如<code>[http://user:password@localhost:8761/eureka](http://user:password@localhost:8761/eureka)</code>，那么客户端就会自动使用该用户名、密码信息与Eureka服务端进行验证。如果你需要更复杂的验证逻辑，你必须注册一个<code>DiscoveryClientOptionalArgs</code>组件，并将<code>ClientFilter</code>组件注入，在这里定义的逻辑会在每次客户端向服务端发起请求时执行。</p>
+<blockquote>
+<p>由于Eureka的限制，Eureka不支持单节点身份验证。</p>
+</blockquote>
+<h2 id="_1">状态页和健康信息指示器<a class="headerlink" href="#_1" title="Permanent link">#</a></h2>
+<p>Eureka应用的状态页和健康信息默认的url为<code>/info</code>和<code>/health</code>，这与<code>Spring Boot Actuator</code>中对应的Endpoint是重复的，因此你必须进行修改：</p>
+<pre><code class="yaml">eureka:
+  instance:
+    statusPageUrlPath: ${management.context-path}/info
+    healthCheckUrlPath: ${management.context-path}/health
+</code></pre>
+
+<p>客户端通过这些URL获取数据，并根据这些数据来判断是否可以向某个服务发起请求。</p>
+<h2 id="https">使用HTTPS<a class="headerlink" href="#https" title="Permanent link">#</a></h2>
+<p>你可以指定<code>EurekaInstanceConfig</code>类中的<code>eureka.instance.[nonSecurePortEnabled,securePortEnabled]=[false,true]</code>属性来指定是否使用HTTPS。当配置使用HTTPS时，Eureka Server会返回以<code>https</code>开头的服务地址。</p>
+<p>即使配置了使用HTTPS，Eureka的主页依然是以普通 HTTP 方式访问的。你需要手动添加一些配置来将这些页面也通过HTTPS保护起来：</p>
+<pre><code class="yaml">eureka:
+  instance:
+    statusPageUrl: https://${eureka.hostname}/info
+    healthCheckUrl: https://${eureka.hostname}/health
+    homePageUrl: https://${eureka.hostname}/
+</code></pre>
+
+<blockquote>
+<p>注意，<code>eureka,hostname</code>是Eureka原生属性，只有新版本的Eureka才支持该属性。你也可以用Spring EL表达式代替：<code>${eureka.instance.hostName}</code></p>
+<p>如果你的应用前端部署了代理，并且SSL的终点是此代理服务器，那么你就需要在应用中解析<code>forwarded</code>请求头。如果你在配置文件中添加了<code>X-Forwarded-*</code>相关参数，Spring Boot中的嵌入式Tomcat会自动解析该请求头。一种表明你没有处理好<code>forwarded</code>请求头的迹象就是你的应用渲染出的HTML页面中链接显示的是错误的主机名和端口号。</p>
+</blockquote>
+<h2 id="_2">健康检查<a class="headerlink" href="#_2" title="Permanent link">#</a></h2>
+<p>默认情况下，Eureka通过客户端发来的心跳包来判断客户端是否在线。如果你不显式指定，客户端在心跳包中不会包含当前应用的健康数据(由Spring Boot Actuator提供)。这意味着只要客户端启动时完成了服务注册，那么该客户端在主动注销之前在Eureka中的状态会永远是<code>UP</code>状态。我们可以通过配置修改这一默认行为，即在客户端发送心跳包时会带上自己的健康信息。这样做的后果是只有当该服务的状态是<code>UP</code>时才能被访问，其它的任何状态都会导致该服务不能被调用。</p>
+<pre><code class="yaml">eureka:
+  client:
+    healthcheck:
+      enabled: true
+</code></pre>
+
+<p>如果你想对健康检查有更细粒度的控制，你可以自己实现<code>com.netflix.appinfo.HealthCheckHandler</code>接口。</p>
+<blockquote>
+<p>以下内容翻译自Eureka官方手册：</p>
+<p>Eureka客户端会每隔30s向服务端发送心跳包以告知服务端当前客户端没有挂掉。对于Client来说，服务Server超过90s没有收到该Client的心跳数据，Server就会把该Client移出服务列表。最好不要修改30s的默认心跳间隔，因为Server会使用这个时间数值来判断是否出现了大面积故障。(译者：意思是比如Eureka默认2分钟收不到心跳就认为网络出了故障，你如果把这个心跳间隔改成了3分钟，那就出问题了。)</p>
+</blockquote>
+<h2 id="eureka_2">Eureka元数据说明<a class="headerlink" href="#eureka_2" title="Permanent link">#</a></h2>
+<p>我们有必要花一些时间来了解一下Eureka的元数据，这样就可以添加一些自定义的数据以适应特定的业务场景。像主机名、IP地址、端口号、状态页url和健康检查url都是Eureka定义的标准元数据。这些元数据会被保存在Eureka Server的注册信息中，客户端会读取这些数据来向需要调用的服务直接发起连接。你可以使用以<code>eureka.instance.metadataMap</code>开头的参数来添加你自定义的元数据，所有客户端都会读取到该信息。通过这种方式你能给客户端自定义一些行为。</p>
+<h2 id="eurekaclient">使用EurekaClient对象<a class="headerlink" href="#eurekaclient" title="Permanent link">#</a></h2>
+<p>当添加了<code>@EnableDiscoveryClient</code>或<code>@EnableEurekaClient</code>注解后，你就可以在应用中使用<code>EurekaClient</code>对象来获取服务列表：</p>
+<pre><code class="java">@Autowired
+private EurekaClient discoveryClient;
+
+public String serviceUrl() {
+    InstanceInfo instance = discoveryClient.getNextServerFromEureka(&quot;STORES&quot;, false);
+    return instance.getHomePageUrl();
+}
+</code></pre>
+
+<blockquote>
+<p>不要在<code>@PostConstruct</code>或<code>@Scheduled</code>方法中使用<code>EurekaClient</code>。在<code>ApplicationContext</code>还没有完全启动时使用该对象会发生错误。</p>
+</blockquote>
+<h2 id="springdiscoveryclient">使用Spring的DiscoveryClient对象<a class="headerlink" href="#springdiscoveryclient" title="Permanent link">#</a></h2>
+<p>你没有必要直接使用Netflix原生的<code>EurekaClient</code>对象，在此基础上做一些封装使用起来会更方便。Spring Cloud支持<code>Feign</code>和<code>Spring RestTmpelate</code>，它们都可以使用服务的逻辑名而不是URL地址来查询服务。如果想给<code>Ribbon</code>手工指定服务列表，你可以将<code>&lt;client&gt;.ribbon.listOfServers</code>属性设为逗号分隔的物理地址或主机名, 参数中的<code>client</code>是服务id，即服务名。</p>
+<p>你可以使用Spring提供的<code>DiscoveryClient</code>对象从而代码不会与Eureka紧耦合：</p>
+<pre><code class="java">@Autowired
+private DiscoveryClient discoveryClient;
+
+public String serviceUrl() {
+    List&lt;ServiceInstance&gt; list = discoveryClient.getInstances(&quot;STORES&quot;);
+    if (list != null &amp;&amp; list.size() &gt; 0 ) {
+        return list.get(0).getUri();
+    }
+    return null;
+}
+</code></pre>
+
+<h2 id="_3">为什么注册一个服务这么慢?<a class="headerlink" href="#_3" title="Permanent link">#</a></h2>
+<p>服务的注册涉及到心跳连接，默认为每30秒一次。只有当Eureka服务端和客户端本地缓存中的服务元数据相同时这个服务才能被其它客户端发现，这需要3个心跳周期。你可以通过参数<code>eureka.instance.leaseRenewalIntervalInSeconds</code>调整这个时间间隔来加快这个过程。在生产环境中你最好使用默认值，因为Eureka内部的某些计算依赖于该时间间隔。</p>
+<h1 id="eureka_3">服务发现：Eureka服务端<a class="headerlink" href="#eureka_3" title="Permanent link">#</a></h1>
+<p>添加<code>spring-cloud-starter-eureka-server</code>，主类代码示例如下：</p>
+<pre><code class="java">@SpringBootApplication
+@EnableEurekaServer
+public class Application {
+
+    public static void main(String[] args) {
+        new SpringApplicationBuilder(Application.class).web(true).run(args);
+    }
+
+}
+</code></pre>
+
+<p>服务启动后，Eureka有一个带UI的主页，注册信息可以通过<code>/eureka/*</code>下的URL获取到。</p>
+<h2 id="zone-region">高可用, Zone 和 Region<a class="headerlink" href="#zone-region" title="Permanent link">#</a></h2>
+<p>Eureka把所有注册信息都放在内存中，所有注册过的客户端都会向Eureka发送心跳包来保持连接。客户端会有一份本地注册信息的缓存，这样就不需要每次远程调用时都向Eureka查询注册信息。</p>
+<p>默认情况下，Eureka服务端自身也是个客户端，所以需要指定一个Eureka Server的URL作为"伙伴"(peer)。如果你没有提供这个地址，Eureka Server也能正常启动工作，但是在日志中会有大量关于找不到peer的错误信息。</p>
+<h2 id="standalone">Standalone模式<a class="headerlink" href="#standalone" title="Permanent link">#</a></h2>
+<p>只要Eureka Server进程不会挂掉，这种集Server和Client于一身和心跳包的模式能让Standalone(单台)部署的Eureka Server非常容易进行灾难恢复。在 Standalone 模式中，可以通过下面的配置来关闭查找“伙伴”的行为：</p>
+<pre><code class="yaml">server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+</code></pre>
+
+<p>注意，<code>serviceUrl</code>中的地址的主机名要与本地主机名相同。</p>
+<h2 id="_4">"伙伴"感知<a class="headerlink" href="#_4" title="Permanent link">#</a></h2>
+<p>Eureka Server可以通过运行多个实例并相互指定为“伙伴”的方式来达到更高的高可用性。实际上这就是默认设置，你只需要指定“伙伴”的地址就可以了:</p>
+<pre><code class="yaml">---
+spring:
+  profiles: peer1
+eureka:
+  instance:
+    hostname: peer1
+  client:
+    serviceUrl:
+      defaultZone: http://peer2/eureka/
+
+---
+spring:
+  profiles: peer2
+eureka:
+  instance:
+    hostname: peer2
+  client:
+    serviceUrl:
+      defaultZone: http://peer1/eureka/
+</code></pre>
+
+<p>在上面这个例子中，我们通过使用不同<code>profile</code>配置的方式可以在本地运行两个Eureka Server。你可以通过修改<code>/etc/host</code>文件，使用上述配置在本地测试伙伴感特性。</p>
+<p>你可以同时启动多个Eureka Server, 并通过伙伴配置使之围成一圈(相邻两个Server互为伙伴)，这些Server中的注册信息都是同步的。If the peers are physically separated (inside a data centre or between multiple data centres) then the system can in principle survive split-brain type failures.</p>
+<h2 id="ip">使用IP地址<a class="headerlink" href="#ip" title="Permanent link">#</a></h2>
+<p>有些时候你可能更倾向于直接使用IP地址定义服务而不是使用主机名。把<code>eureka.instance.preferIpAddress</code>参数设为<code>true</code>时，客户端在注册时就会使用自己的ip地址而不是主机名。</p></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+                <center>Copyright &copy; 2016-2020 <a href="http://blog.xujin.org">许进博客</a>,<a href="http://blog.didispace.com/">程序猿DD</a>, <a href="http://springcloud.cn">Spring Cloud中国社区</a></center>
+            
+            <!--<center>访问人数 <a href="#">n</a>.</center>-->
+        </footer>
+        <script>var base_url = '../..';</script>
+        <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
+        <script src="../../js/base.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            From here you can search these documents. Enter
+                            your search terms below.
+                        </p>
+                        <form role="form">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                            </div>
+                        </form>
+                        <div id="mkdocs-search-results"></div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
