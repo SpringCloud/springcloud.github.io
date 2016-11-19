@@ -235,7 +235,7 @@ public class StreamApplicationTests {
 </ul>
 <h3 id="_3">应用模型<a class="headerlink" href="#_3" title="Permanent link">#</a></h3>
 <p>SpringCloudStream由一个中立的中间件内核组成。SpringCloudStream会注入输入和输出的channels，应用程序通过这些channels与外界通信，而channels则是通过一个明确的中间件Binder与外部brokers连接。</p>
-<p><img alt="" src="../img/stream-binder.png" /> </p>
+<p><img alt="" src="../../img/stream-binder.png" /> </p>
 <h4 id="fat-jar">Fat JAR<a class="headerlink" href="#fat-jar" title="Permanent link">#</a></h4>
 <p>SpringCloudStream可以在ide中运行一个单独的实例用来测试，如果要部署在生产环境中则可以通过Maven或者Gradle提供的Spring Boot工具创建可执行JAR（胖JAR）</p>
 <h3 id="_4">绑定抽象<a class="headerlink" href="#_4" title="Permanent link">#</a></h3>
@@ -244,14 +244,14 @@ public class StreamApplicationTests {
 <p>SpringCloudStream能自动发现并使用类路径中的binder，您可以很容易地以相同的代码使用不同类型的中间件：只需要在build的时候引入不同的binder。对于更复杂的情况，你可以引入多个binders并选择使用哪一个，甚至可以在运行时根据不同的channels选择不同的binder。</p>
 <h3 id="_5">持久化发布／订阅支持<a class="headerlink" href="#_5" title="Permanent link">#</a></h3>
 <p>应用间通信遵照发布-订阅模型，数据通过共享的topics进行广播，下图显示了SpringCloudStream应用交互的典型部署.</p>
-<p><img alt="" src="../img/stream-sensors.png" /></p>
+<p><img alt="" src="../../img/stream-sensors.png" /></p>
 <p>数据被发送到一个公共的目标<code>raw-sensor-data</code>，在目标中，数据分别被两个独立的微服务加工，一个微服务计算平均窗口时间，另一个将原始数据存储到HDFS。为了处理数据，两个微服务在运行时声明这个topic作为他们的输入源。</p>
 <p>发布-订阅通信模型降低了生产者和消费者的复杂性，并允许新的应用程序被添加到拓扑结构，而不会破坏现有的流程。例如，下游的平均计算应用程序，您可以添加一个应用程序，该应用程序计算最高温度用来显示和监控。然后您可以再添加一个基于相同数据流的，解释故障检测的另一个应用程序。通过共同的topics做沟通相比点对点的队列更能减少微服务间的耦合。</p>
 <p>发布订阅不是一个新概念，SpringCloudStream在你的应用中提供一个额外的手段供你选择。通过使用本地中间件支持，SpringCloudStream简化了不同平台上的发布订阅模型。</p>
 <h3 id="_6">消费者组<a class="headerlink" href="#_6" title="Permanent link">#</a></h3>
 <p>虽然发布-订阅模型可以很容易地通过共享topics连接应用程序，但创建一个应用多实例的的扩张能力同等重要。当这样做时，应用程序的不同实例被放置在一个竞争的消费者关系中，其中只有一个实例将处理一个给定的消息。</p>
 <p>SpringCloudStream利用消费者组定义这种行为（这种分组类似于Kafka consumer groups，灵感也来源于此），每个消费者通过<code>spring.cloud.stream.bindings.input.group</code>指定一个组名称，以下图所示的消费者为例，应分别设置<code>spring.cloud.stream.bindings.input.group=hdfsWrite</code>和<code>spring.cloud.stream.bindings.input.group=average</code>。</p>
-<p><img alt="" src="../img/stream-groups.png" /></p>
+<p><img alt="" src="../../img/stream-groups.png" /></p>
 <p>所有订阅指定topics的组都会收到发布数据的一份副本，但是每一个组内只有一个成员会收到该消息。默认情况下，当一个组没有指定时，SpringCloudStream将分配给一个匿名的、独立的只有一个成员的消费组，该组与所有其他组都处于一个发布－订阅关系中。</p>
 <h4 id="_7">持久性<a class="headerlink" href="#_7" title="Permanent link">#</a></h4>
 <p>SpringCloudStream一致性模型中，消费者组订阅是持久的，也就是说一个绑定的实现确保组的订阅者是持久的。一旦组中至少有一个成员创建了订阅，这个组就会收到消息，即使组中所有的应用都被停止了，组仍然会收到消息。 </p>
@@ -262,7 +262,7 @@ public class StreamApplicationTests {
 <h3 id="_8">分区支持<a class="headerlink" href="#_8" title="Permanent link">#</a></h3>
 <p>SpringCloudStream支持在一个应用程序的多个实例之间数据分区，在分区的情况下，物理通信介质（例如，topic代理）被视为多分区结构。一个或多个生产者应用程序实例将数据发送给多个消费应用实例，并保证共同的特性的数据由相同的消费者实例处理。</p>
 <p>SpringCloudStream提供了一个通用的抽象，用于统一方式进行分区处理，因此分区可以用于自带分区的代理（如kafka）或者不带分区的代理（如rabbiemq）</p>
-<p><img alt="" src="../img/stream-partitioning.png" /></p>
+<p><img alt="" src="../../img/stream-partitioning.png" /></p>
 <p>分区在有状态处理中是一个很重要的概念，其重要性体现在性能和一致性上，要确保所有相关数据被一并处理，例如，在时间窗平均计算的例子中，给定传感器测量结果应该都由同一应用实例进行计算。</p>
 <blockquote>
 <p>如果要设置分区处理方案，需要配置数据生产端点和数据消费端点</p>
@@ -594,7 +594,7 @@ public class RxJavaTransformer {
 <h2 id="_14">绑定器<a class="headerlink" href="#_14" title="Permanent link">#</a></h2>
 <p>SpringCloudStream提供绑定抽象用于与外部中间件中的物理目标进行连接。本章主要介绍Binder SPI背后的主要概念，主要组件以及实现细节。</p>
 <h3 id="_15">生产者与消费者<a class="headerlink" href="#_15" title="Permanent link">#</a></h3>
-<p><img alt="" src="../img/stream-producers-consumers.png" /></p>
+<p><img alt="" src="../../img/stream-producers-consumers.png" /></p>
 <p>任何往通道中发布消息的组件都可称作生产者。通道可以通过代理的Binder实现与外部消息代理进行绑定。调用bindProducer()方法，第一个参数是代理名称，第二个参数是本地通道目标名称（生产者向本地通道发送消息），第三个参数包含通道创建的适配器的属性信息（比如：分片key表达式）。 </p>
 <p>任何从通道中接收消息的组件都可称作消费者。与生产者一样，消费者通道可以与外部消息代理进行绑定。调用bindConsumer()方法，第一个参数是目标名称，第二个参数提供了消费者组的名称。每个组都会收到生产中发出消息的副本（即，发布-订阅语义），如果有多个消费者绑定相同的组名称，消息只会由一个消费者消费（即，队列语义）</p>
 <h3 id="binder-spi">Binder SPI<a class="headerlink" href="#binder-spi" title="Permanent link">#</a></h3>
