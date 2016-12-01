@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Spring Cloud中国社区文档,Spring Cloud中国社区官网,Spring Cloud中国社区,致力于为Spring Boot或Spring Cloud技术人员提供分享和交流的平台! www.springcloud.cn,springcloud.cn,spring coud中文">
+        <meta name="author" content="许进">
+        <link rel="canonical" href="http://docs.springcloud.cn/project/QuickStart/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Quick Start - Spring Cloud中国社区</title>
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../css/highlight.css">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link href="../../css/extra.css" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../js/highlight.pack.js"></script>
+         
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../..">Spring Cloud中国社区</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="../..">首页</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">project <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        
+<li class="active">
+    <a href="./">Quick Start</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudConfig/">Spring Cloud Config</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudNetflix/">Spring Cloud Netflix</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudBus/">Spring Cloud Bus</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudforCloudFoundry/">Spring Cloud for Cloud Foundry</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudforCloudFoundry/">Spring Cloud Cloud Foundry Service Broker</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudCloudFoundryServiceBroker/">Spring Cloud Cloud Foundry Service Broker</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudConsul/">Spring Cloud Consul</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudSecurity/">Spring Cloud Security</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudSleuth/">Spring Cloud Sleuth</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudDataFlow/">Spring Cloud Data Flow</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudStream/">Spring Cloud Stream</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudStreamModules/">Spring Cloud Stream Modules</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudTask/">Spring Cloud Task</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudZookeeper/">Spring Cloud Zookeeper</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudforAmazonWebServices/">Spring Cloud for Amazon Web Services</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudConnectors/">Spring Cloud Connectors</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../SpringCloudCLI/">Spring Cloud CLI</a>
+</li>
+
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Spring Cloud翻译文档 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        
+<li >
+    <a href="../../user-guide/eureka/">Spring Cloud Eureka</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../../user-guide/feign/">声明式REST客户端Feign</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../../user-guide/bus/">Spring Cloud Bus</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../../user-guide/config/">Spring Cloud Config</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../../user-guide/sleuth/">Spring Cloud sleuth</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../../user-guide/stream/">Spring Cloud stream</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../../user-guide/zuul/">Spring Cloud zuul</a>
+</li>
+
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../source/">源码分析</a>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                    <li >
+                        <a rel="next" href="../..">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../SpringCloudConfig/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                <li>
+                    <a href="https://github.com/springcloud">
+                        
+                            <i class="fa fa-github"></i>
+                        
+                        GitHub
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+    
+        <li class="main active"><a href="#spring-cloud">Spring Cloud</a></li>
+        
+            <li><a href="#quick-start">Quick Start</a></li>
+        
+            <li><a href="#features">Features</a></li>
+        
+            <li><a href="#main-projects">Main Projects</a></li>
+        
+            <li><a href="#release-trains">Release Trains</a></li>
+        
+            <li><a href="#sample-projects">Sample Projects</a></li>
+        
+    
+    
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="spring-cloud">Spring Cloud<a class="headerlink" href="#spring-cloud" title="Permanent link">#</a></h1>
+<p>Spring Cloud为开发人员提供了工具，用以快速的在分布式系统中建立一些通用方案（例如配置管理，服务发现，断路器，智能路由，微代理，控制总线，一次性令牌，全局锁，领导选举，分布式会话，集群状态）。协调分布式系统有固定样板模型，使用Spring Cloud开发人员可以快速地搭建基于实现了这些模型的服务和应用程序。他们将在任何分布式环境中工作，包括开发人员自己的笔记本电脑，裸机数据中心，和管理的平台，如云计算。</p>
+<p>For full documentation visit <a href="http://projects.spring.io/spring-cloud/">spring.io</a>.</p>
+<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">#</a></h2>
+<p>基于Spring Boot构建Spring Cloud，可以在类路径中自动引入提升应用程序性能的一组类库。您可以利用默认配置来快速启动，然后当您需要时，您可以配置或扩展以创建自定义解决方案。</p>
+<p>发布版的版本号要在artifact:spring-cloud-dependencies
+中明确使用，其他的版本标签会从parent中获取，你可以使用dependencyManagement去做版本依赖管理，下面是使用最新版config client和eureka的配置用例。</p>
+<pre><code>&lt;parent&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+    &lt;version&gt;1.3.5.RELEASE&lt;/version&gt;
+&lt;/parent&gt;
+&lt;dependencyManagement&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
+            &lt;version&gt;Brixton.SR1&lt;/version&gt;
+            &lt;type&gt;pom&lt;/type&gt;
+            &lt;scope&gt;import&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-eureka&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+<h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">#</a></h2>
+<p>Spring Cloud 侧重提供良好的开箱即用体验</p>
+<ul>
+<li><code>Distributed/versioned configuration</code></li>
+<li><code>Service registration and discovery</code></li>
+<li><code>Routing</code></li>
+<li><code>Service-to-service calls</code></li>
+<li><code>Load balancing</code></li>
+<li><code>Circuit Breakers</code></li>
+<li><code>Global locks</code></li>
+<li><code>Leadership election and cluster state</code></li>
+<li><code>Distributed messaging</code></li>
+</ul>
+<p>Spring Cloud 提供一个发布方法，通常你获得很多特性仅是由于一个classpath的变化或注解，下面是一个discovery client的例子</p>
+<pre><code>@SpringBootApplication
+@EnableDiscoveryClient
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+</code></pre>
+<h2 id="main-projects">Main Projects<a class="headerlink" href="#main-projects" title="Permanent link">#</a></h2>
+<ul>
+<li>
+<p><a href="../SpringCloudConfig/">Spring Cloud Config</a></p>
+<p>利用git集中管理程序的配置。配置资源直接映射到Spring的Environment，另一方面如果有需要也可以被非Spring应用使用。</p>
+</li>
+<li>
+<p><a href="../SpringCloudNetflix/">Spring Cloud Netflix</a></p>
+<p>集成了许多Netflix的开源软件(Eureka, Hystrix, Zuul, Archaius, etc)</p>
+</li>
+<li>
+<p><a href="../SpringCloudBus/">Spring Cloud Bus</a></p>
+<p>一个事件总线，利用分布式消息将服务和服务实例连接在一起，用于在一个集群中传播状态的变化，比如配置更改事件。</p>
+</li>
+<li>
+<p><a href="../SpringCloudforCloudFoundry/">Spring Cloud for Cloud Foundry</a></p>
+<p>利用Pivotal Cloudfoundry集成你的应用程序，提供了一个服务发现的实现也使得它很容易实现SSO和OAuth2保护资源，并创建一个Cloudfoundry服务代理。</p>
+</li>
+<li>
+<p><a href="../SpringCloudCloudFoundryServiceBroker/">Spring Cloud Cloud Foundry Service Broker</a></p>
+<p>为建立管理云托管服务的服务代理提供了一个起点。</p>
+</li>
+<li>
+<p><a href="">Spring Cloud Cluster</a></p>
+<p>基于Zookeeper, Redis, Hazelcast, Consul实现的领导选举和平民状态模式的抽象和实现。</p>
+</li>
+<li>
+<p><a href="../SpringCloudConsul/">Spring Cloud Consul</a></p>
+<p>基于Hashicorp Consul实现的服务发现和配置管理。</p>
+</li>
+<li>
+<p><a href="../SpringCloudSecurity/">Spring Cloud Security</a></p>
+<p>在Zuul代理中为OAuth2 rest客户端和认证头转发提供负载均衡</p>
+</li>
+<li>
+<p><a href="../SpringCloudSleuth/">Spring Cloud Sleuth</a></p>
+<p>Spring Cloud 应用的分布式追踪系统，和Zipkin，HTrace，ELK兼容。</p>
+</li>
+<li>
+<p><a href="../SpringCloudDataFlow/">Spring Cloud Data Flow</a></p>
+<p>一个云本地程序和操作模型，组成数据微服务在一个结构化的平台上。</p>
+</li>
+<li>
+<p><a href="../SpringCloudStream/">Spring Cloud Stream</a></p>
+<p>基于 Redis， Rabbit， Kafka实现的消息微服务，简单声明模型用以在Spring Cloud应用中收发消息。</p>
+</li>
+<li>
+<p><a href="../SpringCloudStreamModules/">Spring Cloud Stream Modules</a></p>
+<p>Spring Cloud Stream Modules 可用于创建消息驱动的微服务。</p>
+</li>
+<li>
+<p><a href="../SpringCloudTask/">Spring Cloud Task</a></p>
+<p>短生命周期的微服务，为SpringBooot应用简单声明添加功能和非功能特性。</p>
+</li>
+<li>
+<p><a href="../SpringCloudZookeeper/">Spring Cloud Zookeeper</a></p>
+<p>服务发现和配置管理基于Apache Zookeeper。</p>
+</li>
+<li>
+<p><a href="../SpringCloudforAmazonWebServices/">Spring Cloud for Amazon Web Services</a></p>
+<p>易与托管的亚马逊网络服务的集成。它提供了一个方便的方式来与AWS提供的服务使用知名的Spring语法和API进行交互，如消息或缓存API。开发人员可以在托管服务周围建立他们的应用程序，而不必关心基础设施或维护。</p>
+</li>
+<li>
+<p><a href="../SpringCloudConnectors/">Spring Cloud Connectors</a></p>
+<p>便于PaaS应用在各种平台上连接到后端像数据库和消息经纪服务。</p>
+</li>
+<li>
+<p><a href="https://github.com/spring-cloud/spring-cloud-starters">Spring Cloud Starters</a></p>
+<p>SpringBoot风格starter项目，用以简化Spring Cloud客户端的依赖管理。（项目已经终止并且在Angel.SR2后的版本和其他项目合并）</p>
+</li>
+<li>
+<p><a href="../SpringCloudCLI/">Spring Cloud CLI</a></p>
+<p>Spring Boot CLI 插件用Groovy快速的创建Spring Cloud组件应用。</p>
+</li>
+</ul>
+<h2 id="release-trains">Release Trains<a class="headerlink" href="#release-trains" title="Permanent link">#</a></h2>
+<p>Spring Cloud 是由自主项目组成的，原则上采用不同的发行节奏。管理投资组合的BOM（物料清单）见下文。发布历程有名称，而不是版本，以避免与子项目混乱。名字是伦敦地铁站的名字的字母序列排序（这样你就可以知道时间顺序），“Angel”是第一个版本，“Brixton”是第二。当子项目的发行版本中累计了大量危机的bug，或者有一个严重的bug需要让每个人可见，发布列车将推出“服务发布（service releases）”结尾的名字”.SRX”，其中“X”是一个数字。</p>
+<p>Release train contents:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Angel.SR6</th>
+<th>Brixton.SR1</th>
+<th>Brixton.BUILD-SNAPSHOT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>spring-cloud-aws</td>
+<td>1.0.4.RELEASE</td>
+<td>1.1.0.RELEASE</td>
+<td>1.1.1.BUILD-SNAPSHOT</td>
+</tr>
+<tr>
+<td>spring-cloud-bus</td>
+<td>1.0.3.RELEASE</td>
+<td>1.1.0.RELEASE</td>
+<td>1.1.1.BUILD-SNAPSHOT</td>
+</tr>
+<tr>
+<td>spring-cloud-cli</td>
+<td>1.0.6.RELEASE</td>
+<td>1.1.1.RELEASE</td>
+<td>1.1.2.BUILD-SNAPSHOT</td>
+</tr>
+<tr>
+<td>spring-cloud-commons</td>
+<td>1.0.5.RELEASE</td>
+<td>1.1.1.RELEASE</td>
+<td>1.1.2.BUILD-SNAPSHOT</td>
+</tr>
+<tr>
+<td>spring-cloud-config</td>
+<td>1.0.4.RELEASE</td>
+<td>1.1.1.RELEASE</td>
+<td>1.1.2.BUILD-SNAPSHOT</td>
+</tr>
+<tr>
+<td>spring-cloud-netflix</td>
+<td>1.0.7.RELEASE</td>
+<td>1.1.2.RELEASE</td>
+<td>1.1.3.BUILD-SNAPSHOT</td>
+</tr>
+<tr>
+<td>spring-cloud-security</td>
+<td>1.0.3.RELEASE</td>
+<td>1.1.0.RELEASE</td>
+<td>1.1.1.BUILD-SNAPSHOT</td>
+</tr>
+<tr>
+<td>spring-cloud-starters</td>
+<td>1.0.6.RELEASE</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>spring-cloud-cloudfoundry</td>
+<td></td>
+<td>1.0.0.RELEASE</td>
+<td>1.0.1.BUILD-SNAPSHOT</td>
+</tr>
+<tr>
+<td>spring-cloud-cluster</td>
+<td></td>
+<td>1.0.0.RELEASE</td>
+<td>1.0.1.BUILD-SNAPSHOT</td>
+</tr>
+<tr>
+<td>spring-cloud-consul</td>
+<td></td>
+<td>1.0.1.RELEASE</td>
+<td>1.0.2.BUILD-SNAPSHOT</td>
+</tr>
+<tr>
+<td>spring-cloud-sleuth</td>
+<td></td>
+<td>1.0.1.RELEASE</td>
+<td>1.0.2.BUILD-SNAPSHOT</td>
+</tr>
+<tr>
+<td>spring-cloud-stream</td>
+<td></td>
+<td>1.0.2.RELEASE</td>
+<td>1.0.3.BUILD-SNAPSHOT</td>
+</tr>
+<tr>
+<td>spring-cloud-zookeeper</td>
+<td></td>
+<td>1.0.1.RELEASE</td>
+<td>1.0.2.BUILD-SNAPSHOT</td>
+</tr>
+<tr>
+<td>spring-boot</td>
+<td>1.2.8.RELEASE</td>
+<td>1.3.5.RELEASE</td>
+<td>1.3.5.RELEASE</td>
+</tr>
+<tr>
+<td>spring-cloud-stream-app-starters*</td>
+<td></td>
+<td></td>
+<td>1.0.0.BUILD-SNAPSHOT</td>
+</tr>
+<tr>
+<td>spring-cloud-task*</td>
+<td></td>
+<td></td>
+<td>1.0.0.BUILD-SNAPSHOT</td>
+</tr>
+</tbody>
+</table>
+<p>(*) 这些项目在他们被发布之前还不是 Brixton 的一部分</p>
+<p>Angel基于Spring Boot 1.2.x，某些部分和1.3.x不兼容。Brixton基于Spring Boot 1.3.x尽可能的兼容1.2.x，一些基于Angel的库和基于Angel的大部分应用可以很好的运行在Brixton上，但spring-cloud-security 1.0.x 用到的OAuth2特性将需要全部修改（他们大多搬到Spring Boot1.3.0）。</p>
+<p>使用你的依赖管理工具来控制版本。如果你正在使用Maven，记住第一个版本宣布获胜，所以申报材料清单的顺序，与第一个通常是最新的（例如，如果你想使用Spring Boot 1.3.6启动Brixton.RELEASE，把启动BOM放在第一）。同样的规则适用于Gradle，如果你使用Spring的依赖管理插件。</p>
+<blockquote>
+<p>NOTE: starting after Brixton.M4 the release train contains a <code>spring-cloud-starter-dependencies</code> as well as the <code>spring-cloud-starter-parent</code>. Use the parent as you would the <code>spring-boot-starter-parent</code> (if you are using Maven). If you only need dependency management, the "dependencies" version is a BOM-only version of the same thing (it just contains dependency management and no plugin declarations or direct references to Spring or Spring Boot). If you are using the Spring Boot parent POM, then you can use the BOM from Spring Cloud.</p>
+</blockquote>
+<h2 id="sample-projects">Sample Projects<a class="headerlink" href="#sample-projects" title="Permanent link">#</a></h2>
+<p><a href="https://github.com/spring-cloud-samples/configserver">Config Server</a></p>
+<p><a href="https://github.com/spring-cloud-samples/eureka">Service Registry</a></p>
+<p><a href="https://github.com/spring-cloud-samples/hystrix-dashboard">Circuit Breaker Dashboard</a></p>
+<p><a href="https://github.com/spring-cloud-samples/customers-stores">Business Application</a>(Customers and Stores)</p>
+<p><a href="https://github.com/spring-cloud-samples/authserver">OAuth2 Authorization Server</a></p>
+<p><a href="https://github.com/spring-cloud-samples/sso">OAuth2 SSO Client</a></p>
+<p><a href="https://github.com/spring-cloud-samples/tests">Integration Test Samples</a></p></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+                <center>Copyright &copy; 2016-2020 <a href="http://blog.xujin.org">许进博客</a>,<a href="http://springcloud.cn">Spring Cloud中国社区</a></center>
+            
+            <!--<center>访问人数 <a href="#">n</a>.</center>-->
+        </footer>
+        <script>var base_url = '../..';</script>
+        <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
+        <script src="../../js/base.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            From here you can search these documents. Enter
+                            your search terms below.
+                        </p>
+                        <form role="form">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                            </div>
+                        </form>
+                        <div id="mkdocs-search-results"></div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
