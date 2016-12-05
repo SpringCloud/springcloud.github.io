@@ -4,7 +4,7 @@
     
     <url>
      <loc>http://docs.springcloud.cn/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -13,109 +13,109 @@
         
     <url>
      <loc>http://docs.springcloud.cn/project/QuickStart/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudConfig/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudNetflix/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudBus/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudforCloudFoundry/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudforCloudFoundry/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudCloudFoundryServiceBroker/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudConsul/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudSecurity/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudSleuth/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudDataFlow/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudStream/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudStreamModules/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudTask/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudZookeeper/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudforAmazonWebServices/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudConnectors/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/project/SpringCloudCLI/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -125,43 +125,43 @@
         
     <url>
      <loc>http://docs.springcloud.cn/user-guide/eureka/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/user-guide/feign/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/user-guide/bus/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/user-guide/config/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/user-guide/sleuth/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/user-guide/stream/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>http://docs.springcloud.cn/user-guide/zuul/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -170,7 +170,7 @@
     
     <url>
      <loc>http://docs.springcloud.cn/source/</loc>
-     <lastmod>2016-12-04</lastmod>
+     <lastmod>2016-12-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
     

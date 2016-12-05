@@ -273,12 +273,31 @@
         
             <li><a href="#zuul_2">内置Zuul 反向代理</a></li>
         
+            <li><a href="#zuul-http-client">Zuul Http Client</a></li>
+        
+            <li><a href="#cookies-and-sensitive-headers">Cookies and Sensitive Headers</a></li>
+        
+            <li><a href="#headers">忽略Headers</a></li>
+        
+            <li><a href="#the-routes">The Routes 访问点</a></li>
+        
+            <li><a href="#_1">抑制模式和本地转发</a></li>
+        
+            <li><a href="#zuul_3">通过Zuul上传文件</a></li>
+        
+            <li><a href="#plain-embedded-zuul">Plain Embedded Zuul</a></li>
+        
+            <li><a href="#zuul_4">失效 Zuul 过滤器</a></li>
+        
+            <li><a href="#providing-hystrix-fallbacks-for-routes">Providing Hystrix Fallbacks For Routes</a></li>
+        
     
     
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
+<p>贡献者： Alex Wei</p>
 <h1 id="zuul">Zuul：路由器和过滤器<a class="headerlink" href="#zuul" title="Permanent link">#</a></h1>
 <p>路由是微服务体系不可或缺的一部分， 例如  /  可以映射到Web 应用， /api/users 可以映射的用户服务 ， api/shop 可以映射到商店服务。 Zuul是一个基于JVM的路由器，同时也是一个服务端负载均衡。
 它由Netflix公司开源。</p>
@@ -376,7 +395,7 @@ zuul:
     users: /myusers/**
 </code></pre>
 <p>这意味着所有的类似<code>"/myusers/101"</code>的请求将被转发到 <code>"users"</code>服务的<code>"/101"</code>上。但包含<code>"/admin/"</code>将不被解析。</p>
-<p>注意： 如果你需要你的路由有顺序，需要使用YAML文件，properties file将流失预订的顺序。</p>
+<p>注意： 如果你需要你的路由配置有顺序，需要使用YAML文件，properties file将流失预订的顺序。</p>
 <pre><code>application.yml
 zuul:
   routes:
@@ -385,7 +404,119 @@ zuul:
     legacy:
       path: /**
 </code></pre>
-<p>如果使用 properties file， legacy路径可能会跑到users路径前面，使得users路径不可达。</p></div>
+<p>如果使用 properties file， legacy路径可能会跑到users路径前面，使得users路径不可达。</p>
+<h2 id="zuul-http-client">Zuul Http Client<a class="headerlink" href="#zuul-http-client" title="Permanent link">#</a></h2>
+<p>zuul默认使用的HTTP Client是Apache HTTP Client，代替了过时的Ribbon RestClient。 如果想使用 RestClient或者okhttp3.OkHttpClient，设置ribbon.restclient.enabled=true或者ribbon.okhttp.enabled=true。</p>
+<h2 id="cookies-and-sensitive-headers">Cookies and Sensitive Headers<a class="headerlink" href="#cookies-and-sensitive-headers" title="Permanent link">#</a></h2>
+<p>同一系统在服务间共享headers是可以做到的。但是，你或许不想一些敏感的headers向下泄露到一个外部服务。你可以在路由配置里指定一个忽略的headers列表。Cookies在浏览器端有明确的语义，所以作为一个特殊的角色，总是被视为很敏感。如果客户端是浏览器，因为cookies的混杂，也会给使用下游服务的用户造成问题。</p>
+<p>如果你对服务的设计很小心，例如如果仅仅一个下游服务设置了cookies，那么你也可能让他们一直从后端流窜到调用端。同时，如果你的代理设置了cookies，并且所有后端服务是同一系统的一部分。它可以很自然的分享他们（类似于使用Spring Session来link他们到一些共享状态）。另外，任何由下游服务设置/获取的cookies，对于调用者来说，不一定特别有用。因为，推荐你为路由"Set-Cookie"和设置cookies到header时，不要作为domain的一部分。即使路由是domain的一部分，也要尝试认真思考是否允许cookies在服务和代理间流动。</p>
+<p>敏感性headers能够在每个route里用逗号分隔进行配置。</p>
+<pre><code>application.yml
+  zuul:
+    routes:
+  users:
+    path: /myusers/**
+    sensitiveHeaders: Cookie,Set-Cookie,Authorization
+    url: https://downstream
+</code></pre>
+<p>敏感性的headers也能用 zuul.sensitiveHeaders进行全局设置。如果route上设置了sensitiveHeaders，将覆盖全局设置。</p>
+<h2 id="headers">忽略Headers<a class="headerlink" href="#headers" title="Permanent link">#</a></h2>
+<p>除了route上的敏感性headers之外，在与下游服务交互期间，你可以设置zuul.ignoredHeaders来忽略headers（请求和应答）。默认，这个属性是空的。除非Spring Security不在classpath，否则他们将初始化一组由Spring Security指定的<code>"security"</code> headers。这个假设是，下游服务也可能增加headers。如果当Spring Security不在classpath，我们不想废弃那些security headers，可以设置zuul.ignoreSecurityHeaders为false。如果你不激活Spring Security的Security response headers或者希望下游服务提供这些值，这可能是有用的。</p>
+<h2 id="the-routes">The Routes 访问点<a class="headerlink" href="#the-routes" title="Permanent link">#</a></h2>
+<p>如果你使用<code>@EnableZuulProxy</code>和Spring Boot Actuator，你将能得到一个/routes的访问点。GET这个访问点将返回映射的route列表。 POST这个访问点将强制刷新存在的routes。</p>
+<h2 id="_1">抑制模式和本地转发<a class="headerlink" href="#_1" title="Permanent link">#</a></h2>
+<p>当迁移一个存在的应用或者API时，有一个通用的模式是“抑制”那个旧的访问点，慢慢的用不同的实现替换他们。Zuul代理就是一个有用的工具。你可以使用它重定向网络访问到新的访问点。例如如下配置：</p>
+<pre><code>application.yml
+  zuul:
+    routes:
+        first:
+          path: /first/**
+          url: http://first.example.com
+        second:
+          path: /second/**
+          url: forward:/second
+        third:
+          path: /third/**
+          url: forward:/3rd
+        legacy:
+          path: /**
+          url: http://legacy.example.com
+</code></pre>
+<p>这个例子中，路径是/first/<strong>的请求被提取到一个带有外部url的新的服务。 路径/second/</strong>和/third/**被转发到本地服务来处理。而剩下的不符合以上模式的请求才被"legacy"处理。</p>
+<h2 id="zuul_3">通过Zuul上传文件<a class="headerlink" href="#zuul_3" title="Permanent link">#</a></h2>
+<p>使用Zuul（ @EnableZuulProxy），可以使用代理路径上传文件，但这仅仅对于尽可能小的文件。对于大的文件，有一个叫做<code>"/zuul/*"</code>的可替代的路径可以绕过Sping DispathcerServlet（为了避免多重处理）。例如，如果设置<code>zuul.routes.customers=/customers/**</code>，你可以POST一个大的文件给"/<code>zuul/customers/*"</code>。这个Servlet路径经由zuul.servletPath被暴露。极端情况下，如果代理的route利用的是Ribbon负载均衡，大的文件也需要提高超时的设置。
+例如：</p>
+<pre><code>application.yml
+  hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000
+  ribbon:
+    ConnectTimeout: 3000
+    ReadTimeout: 60000
+</code></pre>
+<p>注意，对于流式处理大的文件，需要在请求中使用分块编码（一些浏览器默认不这样做）。 例如，使用命令行：</p>
+<pre><code>$ curl -v -H "Transfer-Encoding: chunked" \
+-F "file=@mylarge.iso" localhost:9999/zuul/simple/file
+</code></pre>
+<h2 id="plain-embedded-zuul">Plain Embedded Zuul<a class="headerlink" href="#plain-embedded-zuul" title="Permanent link">#</a></h2>
+<p>也可以运行一个没有代理的Zuul服务器，或者选择性的开启一部分代理平台。 如果使用@EnableZuulServer（不是@EnableZuulProxy），任何增加到应用里的，扩展自ZuulFilter的beans都将自动被安装。但如果他们被标注@EnableZuulProxy，没有任何代理过滤器被自动安装。</p>
+<p>这种情况下，zuul服务器里的routes仍然通过<code>"zuul.routes.*"</code>来指定，但是没有服务发现，也没有代理。因此，"serviceId"和“url”设置都被忽略。 例如：</p>
+<pre><code>application.yml
+  zuul:
+    routes:
+      api: /api/**
+</code></pre>
+<p>将映射所有的<code>"/api/**"</code>到Zuul过滤器链。</p>
+<h2 id="zuul_4">失效 Zuul 过滤器<a class="headerlink" href="#zuul_4" title="Permanent link">#</a></h2>
+<p>Zuul默认包含了大量的ZuulFilter Beans用于代理或者服务模式。可以参照filters包来查找有哪些可用的过滤器。如果你想失效一个，简单的设置<code>zuul.&lt;SimpleClassName&gt;.&lt;filterType&gt;.disable=true</code>就可以。依照惯例， 包中的过滤器都是Zuul的顾虑器类型。例如，为了失效<code>org.springframework.cloud.netflix.zuul.filters.post.SendResponseFilter</code>，设置 <code>zuul.SendResponseFilter.post.disable=true</code>就可以啦。</p>
+<h2 id="providing-hystrix-fallbacks-for-routes">Providing Hystrix Fallbacks For Routes<a class="headerlink" href="#providing-hystrix-fallbacks-for-routes" title="Permanent link">#</a></h2>
+<p>当Zuul中一个给定route的断路器跳闸时，可以通过建立一个<code>ZuulFallbackProvider</code>的扩展Bean来提供一个fallback应答。 在这个Bean里，你需要指定Route ID，并提供一个<code>ClientHttpResponse</code>作为Fallback返回。 下面是一个非常简单的<code>ZuulFallbackProvider</code>实现。</p>
+<p>class MyFallbackProvider implements ZuulFallbackProvider {
+    @Override
+    public String getRoute() {
+        return "customers";
+    }</p>
+<pre><code>@Override
+public ClientHttpResponse fallbackResponse() {
+    return new ClientHttpResponse() {
+        @Override
+        public HttpStatus getStatusCode() throws IOException {
+            return HttpStatus.OK;
+        }
+
+        @Override
+        public int getRawStatusCode() throws IOException {
+            return 200;
+        }
+
+        @Override
+        public String getStatusText() throws IOException {
+            return "OK";
+        }
+
+        @Override
+        public void close() {
+
+        }
+
+        @Override
+        public InputStream getBody() throws IOException {
+            return new ByteArrayInputStream("fallback".getBytes());
+        }
+
+        @Override
+        public HttpHeaders getHeaders() {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            return headers;
+        }
+    };
+}
+</code></pre>
+<p>}</p>
+<p>这时，route的配置看起来像：</p>
+<pre><code>zuul:
+  routes:
+    customers: /customers/**
+</code></pre></div>
         </div>
 
         <footer class="col-md-12">
